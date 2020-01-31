@@ -3,6 +3,7 @@ import requests
 import re
 import time
 import random
+import os
 
 def get_cpython_lines():
     """
@@ -57,12 +58,20 @@ if __name__=='__main__':
 
     print("Type q to quit")
     print("Type b to look busy")
+    print("Type c to skip to chapter")
     print("Type any other key to continue reading")
     print("Enjoy!")
 
     x = 'y'
     pars_counter = 0
-    first_read = True
+    if os.path.exists('bookmark.txt'):
+        with open('bookmark.txt') as fle:
+            for line in fle.readlines():
+                exec(line)
+        first_read = False
+    else:
+        first_read = True
+
     cpython_code_lines = get_cpython_lines()
     chapters = get_jungle()
     while(True):
@@ -79,6 +88,9 @@ if __name__=='__main__':
 
         if x == 'q':
             break
+        elif x == 'c':
+            first_read = True
+            continue
         while(x == 'b'):
             i = random.randint(0, len(cpython_code_lines))
             for j in range(100):
@@ -103,4 +115,7 @@ if __name__=='__main__':
                 break
 
     print("Goodbye!")
+    with open('bookmark.txt', 'w') as fle:
+        fle.write(f"chapter = {chapter}\n")
+        fle.write(f"pars_counter = {pars_counter}")
 
