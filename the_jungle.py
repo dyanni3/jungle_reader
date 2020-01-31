@@ -67,17 +67,19 @@ if __name__=='__main__':
     chapters = get_jungle()
     while(True):
 
-        if first_read == True:
+        while(first_read == True):
             chapter = input("Start reading chapter: ")
-            chapter = int(chapter)
-            first_read = False
+            try:
+                chapter = int(chapter)
+                first_read = False
+            except ValueError:
+                continue
 
-        else:
-            x = input("continue: ")
+        x = input("continue: ")
 
-        if chapter == 'q' or x == 'q':
+        if x == 'q':
             break
-        while(chapter == 'b' or x == 'b'):
+        while(x == 'b'):
             i = random.randint(0, len(cpython_code_lines))
             for j in range(100):
                 print(cpython_code_lines[(i+j)%len(cpython_code_lines)])
